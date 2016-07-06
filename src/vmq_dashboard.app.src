@@ -1,0 +1,22 @@
+{application, vmq_dashboard,
+ [{description, "An OTP application"},
+  {vsn, "0.1.0"},
+  {registered, []},
+  {mod, { vmq_dashboard_app, []}},
+  {applications,
+   [kernel,
+    stdlib,
+	lager,
+	cowboy
+   ]},
+  {env,[
+		{vmq_plugin_hooks,
+		 [
+		 ]}
+	   ]},
+  {modules, []},
+
+  {maintainers, []},
+  {licenses, []},
+  {links, []}
+ ]}.
