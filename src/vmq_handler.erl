@@ -11,9 +11,10 @@ handle(Req, State) ->
 	Body = case cowboy_req:binding(what, Req) of
 			   {undefined, Req} ->
 				   <<"Fuck">>;
-			   {What, Req} ->
-				   lager:info("******* 8==D, What: ~p", [What]),
-				   What
+			   {<<"get_nodes">>, Req} ->
+				   NodeStatus = vmq_cluster:status(),
+				   lager:info("******* NodeStatus: ~p", [NodeStatus]),
+				   <<"hello">>
 		   end,
 	{ok, Req2} = cowboy_req:reply(200,
 		[{<<"content-type">>, <<"text/html">>}],

@@ -34,7 +34,7 @@ init() ->
 			%	{mimetypes, cow_mimetypes, all},
 			%	{dir_handler, directory_handler}
 			%]}},
-			{"/", cowboy_static, {priv_file, vmq_dashboard, "templates/index2.html"}},
+			{"/", cowboy_static, {priv_file, vmq_dashboard, "templates/index.html"}},
 			{"/static/[...]", cowboy_static, {priv_dir, vmq_dashboard, "static"}}
 		]}
 	]),
