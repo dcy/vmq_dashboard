@@ -10,32 +10,35 @@ handle(Req, State) ->
 	lager:info("****** 8==D vmq_handler"),
 	Body = case cowboy_req:binding(what, Req) of
 			   {undefined, Req} ->
-				   <<"Fuck">>;
+				   jsx:encode(#{hello=>hello});
 			   {<<"get_nodes">>, Req} ->
 				   NodeStatus = vmq_cluster:status(),
-				   lager:info("******* NodeStatus: ~p", [NodeStatus]),
-				   <<"hello">>
+				   NodeInfos = [get_node_info(Node, IsRunning) || {Node, IsRunning} <- NodeStatus],
+				   jsx:encode(#{nodes => NodeInfos})
 		   end,
 	{ok, Req2} = cowboy_req:reply(200,
-		[{<<"content-type">>, <<"text/html">>}],
+		[{<<"content-type">>, <<"application/json">>}],
 		Body, Req),
 	{ok, Req2, State}.
 
 
-
-	%NewValue = integer_to_list(random:uniform(1000000)),
-	%Req2 = cowboy_req:set_resp_cookie(
-	%	<<"server">>, NewValue, [{path, <<"/">>}], Req),
-	%{ClientCookie, Req3} = cowboy_req:cookie(<<"client">>, Req2),
-	%{ServerCookie, Req4} = cowboy_req:cookie(<<"server">>, Req3),
-	%{ok, Body} = toppage_dtl:render([
-	%	{client, ClientCookie},
-	%	{server, ServerCookie}
-	%]),
-	%{ok, Req5} = cowboy_req:reply(200,
-	%	[{<<"content-type">>, <<"text/html">>}],
-	%	Body, Req4),
-	%{ok, Req5, State}.
-
 terminate(_Reason, _Req, _State) ->
 	ok.
+
+
+
+
+%%todo: only remote node call rpc
+get_node_info(NodeName, IsRunning) ->
+	case IsRunning of
+		true ->
+			[{_, MqttIp, MqttPort, _, _, MaxConns}, {_, VmqIp, VmqPort, _, _, _}] =
+			rpc:call(NodeName, vmq_ranch_config, listeners, []),
+			#{name=>NodeName, is_running=>IsRunning,
+			  vmq_ip=>list_to_binary(VmqIp), vmq_port=>list_to_binary(VmqPort),
+			  mqtt_ip=>list_to_binary(MqttIp), mqtt_port=>list_to_binary(MqttPort),
+			  max_conns=>MaxConns};
+		false ->
+			#{name=>NodeName, is_running=>IsRunning, vmq_ip=>"", vmq_port=>"",
+			  mqtt_ip=>"", mqtt_port=>"", max_conns=>0}
+	end.
