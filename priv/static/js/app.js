@@ -22,13 +22,13 @@ $(document).ready(function(){
 			client.subscribe(topic)
 		}
 	}
-	client = new Paho.MQTT.Client("127.0.0.1", 8888, "fuck")
-	// set callback handlers
-	client.onConnectionLost = onConnectionLost;
-	client.onMessageArrived = onMessageArrived;
+	//client = new Paho.MQTT.Client("192.168.3.236", 8888, "fuck")
+	//// set callback handlers
+	//client.onConnectionLost = onConnectionLost;
+	//client.onMessageArrived = onMessageArrived;
 
-	// connect the client
-	client.connect({onSuccess:onConnect});
+	//// connect the client
+	//client.connect({onSuccess:onConnect});
 
 
 	// called when the client connects

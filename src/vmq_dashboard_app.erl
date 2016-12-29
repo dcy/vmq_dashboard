@@ -29,16 +29,11 @@ init() ->
 	Dispatch = cowboy_router:compile([
 		{'_', [
 			{"/admin/[:what]", vmq_handler, []},
-			%{"/", cowboy_static, {priv_file, vmq_dashboard, "index.html"}}
-			%{"/[...]", cowboy_static, {priv_dir, vmq_dashboard, "", [
-			%	{mimetypes, cow_mimetypes, all},
-			%	{dir_handler, directory_handler}
-			%]}},
 			{"/", cowboy_static, {priv_file, vmq_dashboard, "templates/index.html"}},
 			{"/static/[...]", cowboy_static, {priv_dir, vmq_dashboard, "static"}}
 		]}
 	]),
-	{ok, _} = cowboy:start_http(http, 100, [{port, 9080}], [
+	{ok, _} = cowboy:start_http(vmq_dashboard, 100, [{port, 9080}], [
 		{env, [{dispatch, Dispatch}]}
 	]),
 
