@@ -1,10 +1,20 @@
--module(vmq_handler).
--export([init/3]).
--export([handle/2]).
--export([terminate/3]).
+-module(vmq_dashboard).
+-behaviour(vmq_http_config).
 
-init(_Transport, Req, []) ->
-	{ok, Req, undefined}.
+-export([routes/0]).
+-export([init/3,
+         handle/2,
+         terminate/3]).
+
+routes() ->
+    [
+     {"/vmq_dashboard/", cowboy_static, {priv_file, ?MODULE, "templates/index.html"}},
+     {"/vmq_dashboard/[:what]", ?MODULE, []},
+     {"/vmq_dashboard/static/[...]", cowboy_static, {priv_dir, ?MODULE, "static"}}
+    ].
+
+init(_Type, Req, _Opts) ->
+    {ok, Req, undefined}.
 
 handle(Req, State) ->
 	Body = case cowboy_req:binding(what, Req) of
@@ -45,6 +55,3 @@ format_node(Listeners, Node) ->
 							MaxConnsKey=>MaxConns}
 		  end,
 	lists:foldl(Fun, Node, Listeners).
-
-
-	
