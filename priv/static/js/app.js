@@ -6,7 +6,7 @@ $(document).ready(function(){
 		}
 	})
 
-	$.get("/admin/get_nodes",
+	$.get("/vmq_dashboard/get_nodes",
 		function(data) {
 			vm.nodes = data.nodes
 		}

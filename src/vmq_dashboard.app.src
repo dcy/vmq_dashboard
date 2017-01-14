@@ -6,8 +6,7 @@
   {applications,
    [kernel,
     stdlib,
-	lager,
-	cowboy
+	lager
    ]},
   {env,[
 		{vmq_plugin_hooks,

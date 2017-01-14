@@ -26,16 +26,16 @@ stop(_State) ->
 %% Internal functions
 %%====================================================================
 init() ->
-	Dispatch = cowboy_router:compile([
-		{'_', [
-			{"/admin/[:what]", vmq_handler, []},
-			{"/", cowboy_static, {priv_file, vmq_dashboard, "templates/index.html"}},
-			{"/static/[...]", cowboy_static, {priv_dir, vmq_dashboard, "static"}}
-		]}
-	]),
-	{ok, _} = cowboy:start_http(vmq_dashboard, 100, [{port, 9080}], [
-		{env, [{dispatch, Dispatch}]}
-	]),
+	%Dispatch = cowboy_router:compile([
+	%	{'_', [
+	%		{"/admin/[:what]", vmq_handler, []},
+	%		{"/", cowboy_static, {priv_file, vmq_dashboard, "templates/index.html"}},
+	%		{"/static/[...]", cowboy_static, {priv_dir, vmq_dashboard, "static"}}
+	%	]}
+	%]),
+	%{ok, _} = cowboy:start_http(vmq_dashboard, 100, [{port, 9080}], [
+	%	{env, [{dispatch, Dispatch}]}
+	%]),
 
 
 	ok.

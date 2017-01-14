@@ -9,8 +9,4 @@
  {<<"lager">>,
   {git,"https://github.com/basho/lager",
        {ref,"45fe95ba6cd964b7a667394c4e671a5afe8f5a42"}},
-  0},
- {<<"vmq_commons">>,
-  {git,"git://github.com/erlio/vmq_commons.git",
-       {ref,"5ffa0f5d3416a7854e9ff505af1f9da7c1931057"}},
   0}].
